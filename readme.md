@@ -1,6 +1,6 @@
 ---
 title: Flipkart-ai
-emoji: 🛍️
+emoji: ???
 colorFrom: indigo
 colorTo: pink
 sdk: docker
@@ -8,4 +8,4 @@ pinned: false
 ---
 
 # Flipkart AI Platform
-Minimal deployment configuration. Full documentation will be added later.
+Minimal deployment configuration.
