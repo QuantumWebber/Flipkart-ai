@@ -1,6 +1,6 @@
 ---
 title: Flipkart-ai
-emoji: ???
+emoji: 🛒
 colorFrom: indigo
 colorTo: pink
 sdk: docker
