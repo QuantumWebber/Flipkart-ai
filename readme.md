@@ -18,8 +18,6 @@ The architecture is fully containerized using Docker and designed to run asynchr
 ## System Architecture
 
 The platform follows a modern, decoupled microservices pattern:
-
-```
 [ REACT.JS FRONTEND ]
   (Tailwind CSS v4 + Lucide + SVG Charts)
            |                        |
@@ -38,8 +36,6 @@ The platform follows a modern, decoupled microservices pattern:
    [ NLP PIPELINE ]  [ CV PIPELINE ]  [ TIME SERIES ]
    (RoBERTa, spaCy,  (OpenCV + CLIP)  (Meta Prophet)
     Llama 3.1)
-```
-
 ---
 
 ## Core Machine Learning Pipelines
@@ -79,34 +75,32 @@ To handle dynamic layouts and anti-bot measures:
 ---
 
 ## Project Structure
-
-```
 ecom-ai/
 ├── nlp/
-│   ├── __init__.py
-│   ├── sentiment.py          # RoBERTa Sentiment Analysis
-│   ├── summarizer.py         # spaCy & Groq Llama 3.1 Summaries
-│   └── fake_detector.py      # spaCy Syntactic Spam Analyzer
+│ ├── init.py
+│ ├── sentiment.py # RoBERTa Sentiment Analysis
+│ ├── summarizer.py # spaCy & Groq Llama 3.1 Summaries
+│ └── fake_detector.py # spaCy Syntactic Spam Analyzer
 ├── scraper/
-│   ├── __init__.py
-│   ├── search_scraper.py     # Selenium Search Scraper
-│   └── review_scraper.py     # Selenium Review Scraper
+│ ├── init.py
+│ ├── search_scraper.py # Selenium Search Scraper
+│ └── review_scraper.py # Selenium Review Scraper
 ├── cv/
-│   ├── __init__.py
-│   └── image_quality.py      # OpenCV & CLIP Aesthetic/Integrity Analysis
+│ ├── init.py
+│ └── image_quality.py # OpenCV & CLIP Aesthetic/Integrity Analysis
 ├── timeseries/
-│   ├── __init__.py
-│   └── price_forecast.py     # Meta Prophet & Financial Metrics
+│ ├── init.py
+│ └── price_forecast.py # Meta Prophet & Financial Metrics
 ├── recsys/
-│   ├── __init__.py
-│   └── recommender.py        # Value-based Recommendation Engine
-├── main.py                   # FastAPI Backend Server & Endpoints
-├── Dockerfile                # Unified Multi-Stage Dockerfile (React + FastAPI)
-├── requirements.txt          # Unified dependencies
-├── .env                      # Local Environment Variables
+│ ├── init.py
+│ └── recommender.py # Value-based Recommendation Engine
+├── main.py # FastAPI Backend Server & Endpoints
+├── Dockerfile # Unified Multi-Stage Dockerfile (React + FastAPI)
+├── requirements.txt # Unified dependencies
+├── .env # Local Environment Variables
 └── .gitignore
-```
-
+code
+Code
 ---
 
 ## Local Installation & Deployment
@@ -123,26 +117,29 @@ ecom-ai/
 ```bash
 git clone https://github.com/your-username/ecom-ai.git
 cd ecom-ai
-```
-
-**2. Configure environment variables:**
-
-Create a `.env` file in the project root:
-
-```
+2. Configure environment variables:
+Create a .env file in the project root:
+code
+Code
 GROQ_API_KEY=your_groq_api_key_here
-```
-
-**3. Launch the stack:**
-
+3. Launch the stack:
 Ensure Docker Desktop is running, then execute:
+code
+Bash
+docker-compose up --build
+Service	URL
+React Frontend	http://localhost:80
+FastAPI Backend	http://localhost:8000
+Swagger API Docs	http://localhost:8000/docs
+code
+Code
+---
+
+### Step 3: Run These Git Commands in Your Terminal
+
+Now, run these three commands in your terminal at the project root (`ecom-ai/`) to push the clean configuration to Hugging Face [2]:
 
 ```bash
-docker-compose up --build
-```
-
-| Service | URL |
-|---|---|
-| React Frontend | http://localhost:80 |
-| FastAPI Backend | http://localhost:8000 |
-| Swagger API Docs | http://localhost:8000/docs |
+git add .
+git commit -m "Configure correct Hugging Face Space metadata"
+git push hf main:main
