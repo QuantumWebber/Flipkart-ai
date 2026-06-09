@@ -141,14 +141,14 @@ export default function App() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-white via-violet-300 to-violet-500 bg-clip-text text-transparent">
-            Hi,Quantum Webber
+            Hi, Jatin
           </h1>
           <p className="text-gray-400 mt-3 text-lg max-w-2xl mx-auto">
             Search for products on Flipkart or paste a direct URL to analyze customer sentiment, image quality, and price forecasting.
           </p>
         </div>
 
-        {/* --- DUAL INPUT TABS PANEL --- */}
+        {/* DUAL INPUT TABS PANEL */}
         <div className="max-w-3xl mx-auto bg-dark-card/60 backdrop-blur-md rounded-2xl p-6 border border-white/5 shadow-2xl mb-12">
           <div className="flex gap-4 mb-6 border-b border-white/5 pb-4">
             <button 
@@ -201,7 +201,7 @@ export default function App() {
           )}
         </div>
 
-        {/* --- DYNAMIC STEP-BY-STEP PROGRESS LOADER --- */}
+        {/* DYNAMIC STEP-BY-STEP PROGRESS LOADER */}
         {isLoading && (
           <div className="max-w-2xl mx-auto bg-dark-card/40 border border-white/5 rounded-2xl p-6 text-center shadow-xl mb-12">
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-accent-violet mx-auto mb-4"></div>
@@ -210,7 +210,7 @@ export default function App() {
           </div>
         )}
 
-        {/* --- SEARCH RESULTS DYNAMIC GRID CARDS --- */}
+        {/* SEARCH RESULTS DYNAMIC GRID CARDS */}
         {searchResults.length > 0 && !isLoading && (
           <div className="mb-12">
             <h2 className="text-xl font-bold mb-6 text-gray-300">🔍 Select a product to analyze:</h2>
@@ -238,7 +238,7 @@ export default function App() {
           </div>
         )}
 
-        {/* --- CORE UNIFIED ANALYSIS DASHBOARD --- */}
+        {/* CORE UNIFIED ANALYSIS DASHBOARD */}
         {analysisResult && !isLoading && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
             
