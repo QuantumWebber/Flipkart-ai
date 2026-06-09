@@ -1,24 +1,42 @@
-# Stage 1: Build React/Vite production assets
-FROM node:20-alpine AS build
+# Use the robust full Debian Python image
+FROM python:3.11
 
-WORKDIR /app
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget \
+    gnupg \
+    unzip \
+    curl \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    chromium \
+    chromium-driver \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy package configurations and install dependencies
-COPY package*.json ./
-RUN npm install
+# Set up the non-root user (Hugging Face Requirement)
+RUN useradd -m -u 1000 user
 
-# Copy the frontend application code and build static assets
-COPY . .
-RUN npm run build
+# Set up the working directory inside the user's home directory
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
+WORKDIR $HOME/app
 
-# Stage 2: Serve the compiled static assets using a high-performance Nginx server
-FROM nginx:stable-alpine
+# Copy and install python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Copy the built assets from the previous stage to the Nginx serving directory
-COPY --from=build /app/dist /usr/share/nginx/html
+# Pre-download spaCy models globally
+RUN python -m spacy download en_core_web_sm
 
-# Expose Nginx standard port
-EXPOSE 80
+# Copy the remaining project files (including your pre-built frontend_dist)
+COPY --chown=user:user . .
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Switch to the non-root user for execution
+USER user
+
+# Hugging Face Space port
+EXPOSE 7860
+
+# Start FastAPI
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
