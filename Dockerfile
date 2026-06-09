@@ -1,16 +1,17 @@
 # Stage 1: Build the React Frontend assets
 FROM node:20-alpine AS build-stage
 WORKDIR /frontend
-COPY frontend/package*.json ./
+# Copy package.json (removed wildcard to prevent lockfile conflicts)
+COPY frontend/package.json ./
 RUN npm install
 COPY frontend/ ./
 RUN npm run build
 
-# Stage 2: Set up the Python FastAPI environment, Chrome, and Build Tools
-FROM python:3.11-slim
+# Stage 2: Set up the Python FastAPI environment (Using the robust full Debian image)
+FROM python:3.11
 WORKDIR /app
 
-# Install system dependencies, including headless Chromium, Chromium-Driver, Mesa, and C++ Build Tools
+# Install system dependencies (No need for compiler tools as they are pre-installed in the full image)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     gnupg \
@@ -20,8 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libglib2.0-0 \
     chromium \
     chromium-driver \
-    build-essential \
-    g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python requirements
