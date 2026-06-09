@@ -8,4 +8,3 @@ pinned: false
 ---
 
 # Flipkart AI Platform
-Minimal deployment configuration.
