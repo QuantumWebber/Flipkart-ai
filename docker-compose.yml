@@ -1,0 +1,24 @@
+services:
+  # 1. FastAPI Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - PORT=8000
+
+  # 2. React Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile # Points to the standard named Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

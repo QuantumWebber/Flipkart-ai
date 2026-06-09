@@ -1,0 +1,26 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+.env
+
+# Node.js / React build artifacts
+frontend/node_modules/
+frontend/dist/
+frontend_dist/
+
+# Scraping Leftovers & Temporary Files
+page.html
+chromedriver.log
+
+# Obsolete Prototyping Files (To keep repo clean)
+app.py
+demo.py
+demo2.py
+
+# Exclude raw static data folder
+data/

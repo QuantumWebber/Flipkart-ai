@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Tailwind v4 native theme configuration */
+@theme {
+  --color-dark-bg: #090a0f;
+  --color-dark-card: #121420;
+  --color-accent-violet: #8b5cf6;
+  --color-accent-pink: #ec4899;
+  --color-accent-cyan: #06b6d4;
+}
+
+body {
+  background-color: var(--color-dark-bg);
+  color: #f3f4f6;
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+}
