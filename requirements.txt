@@ -6,7 +6,6 @@ selenium
 transformers
 torch
 spacy
-prophet
 numpy
 pandas
 requests
