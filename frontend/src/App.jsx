@@ -441,7 +441,7 @@ export default function App() {
                     analysisResult.nlp_analysis.fake_analysis.flagged_reviews  // Mock concat for visualization
                   ).map((rev, idx) => (
                     <div key={idx} className="bg-dark-bg/20 border border-white/5 rounded-xl p-3 text-xs text-gray-300 leading-relaxed">
-                      {rev.review ? rev.review : reviews[idx]}
+                     {rev.review ? rev.review : `Review #${idx + 1}`}
                     </div>
                   ))}
                 </div>
