@@ -1,16 +1,18 @@
 import time
 import json
 import re
+import os
 from typing import List, Optional
 from pydantic import BaseModel
 from fastapi import FastAPI, Query, HTTPException
-from fastapi.middleware.cors import CORSMiddleware  # CORS middleware
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse  # Required to serve index.html directly
 
 # Initialize FastAPI application
 app = FastAPI(title="E-Commerce AI Platform API")
 
-# --- CONFIGURE CORS MIDDLEWARE ---
-# This allows your React frontend on port 5173 to securely request resources from FastAPI on port 8000
+# Configure CORS Middleware (Kept active for local frontend-backend separate testing)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -193,10 +195,6 @@ def scrape_description_and_details(product_url: str) -> dict:
 
 # --- API ROUTES ---
 
-""" @app.get("/")
-def read_root():
-    return {"message": "Welcome to E-Commerce AI Platform API!"} """
-
 @app.get("/api/test")
 def test_api():
     return {
@@ -204,6 +202,7 @@ def test_api():
         "message": "FastAPI backend connected successfully!"
     }
 
+# 1. Product Search Endpoint
 @app.get("/api/search")
 def search(q: str = Query(..., description="Product name to search")):
     if not q.strip():
@@ -214,6 +213,7 @@ def search(q: str = Query(..., description="Product name to search")):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
 
+# 2. Consolidated Analysis Endpoint
 @app.post("/api/analyze")
 def analyze_product(req: AnalysisRequest):
     url = req.product_url
@@ -269,8 +269,24 @@ def analyze_product(req: AnalysisRequest):
                 "top_themes": summary_results.get("keywords", [])
             },
             "recommendations": recommendations,
-            "raw_reviews_count": len(reviews)
+            "raw_reviews_count": len(reviews),
+            "raw_reviews": reviews
         }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Analysis pipeline crashed: {str(e)}")
+
+# --- PRODUCTION SPA ROUTER ---
+# Mount only the compiled JS/CSS asset folder (Vite outputs them here)
+try:
+    app.mount("/assets", StaticFiles(directory="frontend_dist/assets"), name="assets")
+except Exception as e:
+    print(f"[WARNING] Assets directory mounting skipped: {e}")
+
+# Catch-all wildcard route: Returns index.html for root and all frontend routes
+@app.get("/{catchall:path}")
+def serve_spa(catchall: str):
+    index_path = os.path.join("frontend_dist", "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return {"detail": "Frontend assets not compiled or missing. Please run compilation."}
