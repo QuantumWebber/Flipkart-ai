@@ -13,8 +13,10 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState('');
 
-  // FastAPI Base URL
-  const API_BASE = "http://127.0.0.1:8000";
+  // SOTA Dynamic API Base URL: Automatically detects Local vs Production environments!
+  const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://127.0.0.1:8000"
+    : "";
 
   // 1. Handle Product Search Query
   const handleSearch = async (e) => {
@@ -437,11 +439,9 @@ export default function App() {
               <div className="bg-dark-card/50 border border-white/5 rounded-2xl p-6 shadow-xl">
                 <h3 className="text-lg font-bold mb-4">Raw Reviews Feed ({analysisResult.raw_reviews_count})</h3>
                 <div className="max-h-60 overflow-y-auto space-y-3 pr-2">
-                  {analysisResult.nlp_analysis.fake_analysis.flagged_reviews.concat(
-                    analysisResult.nlp_analysis.fake_analysis.flagged_reviews  // Mock concat for visualization
-                  ).map((rev, idx) => (
+                  {analysisResult.nlp_analysis.fake_analysis.flagged_reviews.map((rev, idx) => (
                     <div key={idx} className="bg-dark-bg/20 border border-white/5 rounded-xl p-3 text-xs text-gray-300 leading-relaxed">
-                      {rev.review ? rev.review : reviews[idx]}
+                      {rev.review}
                     </div>
                   ))}
                 </div>
