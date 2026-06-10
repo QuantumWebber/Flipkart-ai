@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium-driver \
     fonts-liberation \
     libnss3 \
-    libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Non-root user (HF requirement)
