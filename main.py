@@ -193,9 +193,9 @@ def scrape_description_and_details(product_url: str) -> dict:
 
 # --- API ROUTES ---
 
-@app.get("/")
+""" @app.get("/")
 def read_root():
-    return {"message": "Welcome to E-Commerce AI Platform API!"}
+    return {"message": "Welcome to E-Commerce AI Platform API!"} """
 
 @app.get("/api/test")
 def test_api():
