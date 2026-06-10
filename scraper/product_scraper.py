@@ -1,17 +1,25 @@
 from matplotlib import lines
+from pandas import options
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
 import re
+from selenium.webdriver.chrome.service import Service
+
 
 def get_driver():
-    options = Options()
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
-    driver = webdriver.Chrome(options=options)
-    return driver
+  options = Options()
+  options.add_argument("--headless")
+  options.add_argument("--no-sandbox")
+  options.add_argument("--disable-dev-shm-usage")
+  options.add_argument("--disable-gpu")
+  options.add_argument("--window-size=1920,1080")
+  options.binary_location = "/usr/bin/chromium"  # HF Spaces path
+
+  service = Service("/usr/bin/chromedriver")  # HF Spaces path
+  driver = webdriver.Chrome(service=service, options=options)
+  return driver
 
 def scrape_product(product_url: str) -> dict:
     driver = get_driver()
