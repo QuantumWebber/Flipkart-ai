@@ -1,4 +1,3 @@
-# Stage 1: Build React Frontend
 FROM node:20-slim AS build-stage
 WORKDIR /frontend
 COPY frontend/package.json ./
@@ -6,7 +5,6 @@ RUN npm install --legacy-peer-deps
 COPY frontend/ ./
 RUN npm run build
 
-# Stage 2: Python Backend
 FROM python:3.11-slim
 WORKDIR /app
 
@@ -15,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg \
     unzip \
     curl \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     chromium \
     chromium-driver \
@@ -23,7 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libnss3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Non-root user (HF requirement)
 RUN useradd -m -u 1000 user
 
 ENV HOME=/home/user \
