@@ -1,0 +1,12 @@
+**/__pycache__
+**/*.pyc
+**/*.pyo
+*.pyc
+*.pyo
+__pycache__
+.env
+node_modules
+frontend/node_modules
+.git
+venv
+.venv
