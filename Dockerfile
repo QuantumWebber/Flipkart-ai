@@ -43,5 +43,5 @@ RUN chown -R user:user ./frontend_dist
 USER user
 
 
-EXPOSE 7680
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7680"]
+EXPOSE 7860
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
