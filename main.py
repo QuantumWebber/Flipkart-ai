@@ -12,11 +12,12 @@ from fastapi.responses import FileResponse  # Required to serve index.html direc
 # Initialize FastAPI application
 app = FastAPI(title="E-Commerce AI Platform API")
 
-# Configure CORS Middleware (Kept active for local frontend-backend separate testing)
+# --- CONFIGURE GLOBAL WILDCARD CORS MIDDLEWARE ---
+# This allows the API to be called securely from both localhost and Hugging Face domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-    allow_credentials=True,
+    allow_origins=["*"],  # Allows all origins (localhost & Hugging Face)
+    allow_credentials=False,  # Required to be False when using wildcard origins
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -277,13 +278,11 @@ def analyze_product(req: AnalysisRequest):
         raise HTTPException(status_code=500, detail=f"Analysis pipeline crashed: {str(e)}")
 
 # --- PRODUCTION SPA ROUTER ---
-# Mount only the compiled JS/CSS asset folder (Vite outputs them here)
 try:
     app.mount("/assets", StaticFiles(directory="frontend_dist/assets"), name="assets")
 except Exception as e:
     print(f"[WARNING] Assets directory mounting skipped: {e}")
 
-# Catch-all wildcard route: Returns index.html for root and all frontend routes
 @app.get("/{catchall:path}")
 def serve_spa(catchall: str):
     index_path = os.path.join("frontend_dist", "index.html")
