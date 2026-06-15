@@ -13,7 +13,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState('');
 
-  // SOTA Dynamic API Base URL
+  // Dynamic API Base URL
   const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://127.0.0.1:8000"
     : "";
@@ -51,9 +51,10 @@ export default function App() {
     setLoadingStep("Phase 1: Scraping product specifications and images...");
     
     try {
+      // Guarded against undefined searchResults state
       const payload = {
         product_url: url,
-        products_list: searchResults.length > 0 ? searchResults : null
+        products_list: searchResults?.length > 0 ? searchResults : null
       };
 
       // Simulating step messages during execution
@@ -450,7 +451,7 @@ export default function App() {
               )}
             </div>
 
-            {/* --- AI RECOMMENDATIONS SECTION (Grid list at the bottom, dynamic columns up to 5) --- */}
+            {/* --- AI RECOMMENDATIONS SECTION --- */}
             {analysisResult?.recommendations && analysisResult?.recommendations?.length > 0 && (
               <div className="lg:col-span-12 mt-8">
                 <h2 className="text-2xl font-bold mb-6 text-gray-300 flex items-center gap-2">

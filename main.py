@@ -13,7 +13,6 @@ from fastapi.responses import FileResponse  # Required to serve index.html direc
 app = FastAPI(title="E-Commerce AI Platform API")
 
 # --- CONFIGURE GLOBAL WILDCARD CORS MIDDLEWARE ---
-# This allows the API to be called securely from both localhost and Hugging Face domains
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allows all origins (localhost & Hugging Face)
@@ -39,7 +38,7 @@ class AnalysisRequest(BaseModel):
     product_url: str
     products_list: Optional[List[dict]] = None
 
-# --- BULLETPROOF SCRAPER HELPER ---
+# --- SCRAPER HELPER ---
 def scrape_description_and_details(product_url: str) -> dict:
     from selenium import webdriver
     from selenium.webdriver.common.by import By
@@ -287,5 +286,8 @@ except Exception as e:
 def serve_spa(catchall: str):
     index_path = os.path.join("frontend_dist", "index.html")
     if os.path.exists(index_path):
-        return FileResponse(index_path)
+        return FileResponse(
+            index_path,
+            headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+        )
     return {"detail": "Frontend assets not compiled or missing. Please run compilation."}
