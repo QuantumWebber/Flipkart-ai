@@ -1,7 +1,7 @@
 import React from 'react';
 import { Zap } from 'lucide-react';
 
-export function Navbar() {
+export default function Navbar() {
   return (
     <nav className="border-b border-white/5 bg-[#090a0f]/80 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">

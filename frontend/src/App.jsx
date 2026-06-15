@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar } from './components/Navbar';
+import Navbar from './components/Navbar'; // Corrected Default Import (No curly braces)
 import { Search, Link2, Sparkles, AlertTriangle, CheckCircle, BarChart2, ShieldCheck, Heart, ArrowRight } from 'lucide-react';
 
 export default function App() {
@@ -154,7 +154,7 @@ export default function App() {
         <div className="max-w-3xl mx-auto bg-dark-card/60 backdrop-blur-md rounded-2xl p-6 border border-white/5 shadow-2xl mb-12">
           <div className="flex gap-4 mb-6 border-b border-white/5 pb-4">
             <button 
-              onClick={() => { setActiveTab('search'); setAnalysisResult(null); }}
+              onClick={() => { setActiveTab('search'); setSearchResults([]); setAnalysisResult(null); }}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${activeTab === 'search' ? 'bg-accent-violet/20 text-accent-violet border border-accent-violet/30' : 'text-gray-400 hover:text-white'}`}
             >
               <Search className="w-4 h-4" /> Search Products
